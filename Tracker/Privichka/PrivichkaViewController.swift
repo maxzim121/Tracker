@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-final class PrivichkaViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RaspisanieDelegate {
+final class PrivichkaViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RaspisanieDelegate, UITextFieldDelegate {
     
     
     weak var delegate: TrackerCreationDelegate?
@@ -9,8 +9,8 @@ final class PrivichkaViewController: UIViewController, UITableViewDelegate, UITa
     private let recordManager: RecordManagerProtocol = RecordManager.shared
     private var categoryName = "Категория"
     
-    var raspisaniePrivichki: [WeekDay] = []
-    var namePrivichka: String = ""
+    private var raspisaniePrivichki: [WeekDay] = []
+    private var namePrivichka: String = ""
     
     private let raspisanieVC = RaspisaineViewController()
     
@@ -77,6 +77,9 @@ final class PrivichkaViewController: UIViewController, UITableViewDelegate, UITa
         trackerNameField.indent(size: CGFloat(12))
         trackerNameField.backgroundColor = UIColor(red: 0.902, green: 0.91, blue: 0.922, alpha: 0.3)
         trackerNameField.layer.cornerRadius = 16
+        trackerNameField.clearButtonMode = .whileEditing
+        trackerNameField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        trackerNameField.delegate = self
         
         NSLayoutConstraint.activate([
             trackerNameField.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
@@ -175,7 +178,7 @@ final class PrivichkaViewController: UIViewController, UITableViewDelegate, UITa
     }
     
     @objc private func createButtonTapped() {
-        let newTracker = Tracker(name: "name", id: UUID(), color: .red, emoji: "🤣", schedule: raspisaniePrivichki)
+        let newTracker = Tracker(name: namePrivichka, id: UUID(), color: .red, emoji: "🤣", schedule: raspisaniePrivichki)
         //TODO: Передача нового полного трекера
         delegate?.sendTracker(tracker: newTracker, categoryName: categoryName)
         self.dismiss(animated: false, completion: nil)
@@ -184,6 +187,11 @@ final class PrivichkaViewController: UIViewController, UITableViewDelegate, UITa
     
     @objc private func cancelButtonTapped() {
         self.dismiss(animated: true)
+    }
+    
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        namePrivichka = text
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
