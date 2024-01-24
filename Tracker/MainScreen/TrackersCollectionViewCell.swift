@@ -73,8 +73,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     
     private func configureDoneButton() {
         doneButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        print("конфигурация кнопки")
-
         doneButton.tintColor = .white
         contentView.addSubview(doneButton)
         doneButton.translatesAutoresizingMaskIntoConstraints = false
@@ -136,7 +134,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     }
     
     func updateLableCountAndImageAddButton(count: Int, flag: Bool) {
-        print(flag, " FLAG")
         switch flag {
         case true:
             let image = UIImage(systemName: "checkmark")?.withRenderingMode(.alwaysTemplate)
@@ -159,17 +156,14 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         if flag {
             let image = UIImage(systemName: "checkmark")?.withRenderingMode(.alwaysTemplate)
             doneButton.setImage(image, for: .normal)
-            print(doneButton)
         } else {
             let image = UIImage(systemName: "plus")?.withRenderingMode(.alwaysTemplate)
             doneButton.setImage(image, for: .normal)
-            print(doneButton)
         }
     }
     
     func updateDaysAndButton(count: Int, isCompleted: Bool) {
         let daysWord = endingWordDay(count: count)
-        print(isCompleted)
         daysLabel.text = daysWord
         buttonImageSet(flag: isCompleted)
     }
