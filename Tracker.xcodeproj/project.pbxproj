@@ -23,9 +23,10 @@
 		5A743E152B5C7E7E00E6C7BC /* RecordManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A743E142B5C7E7E00E6C7BC /* RecordManager.swift */; };
 		5A743E172B5C85E500E6C7BC /* FormatDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A743E162B5C85E500E6C7BC /* FormatDate.swift */; };
 		5A743E192B5C924200E6C7BC /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A743E182B5C924200E6C7BC /* Date.swift */; };
+		5AC959912B5D5EE50014F9F1 /* DaysValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC959902B5D5EE50014F9F1 /* DaysValueTransformer.swift */; };
 		5ACF13442AC722A400ED627B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF13432AC722A400ED627B /* AppDelegate.swift */; };
 		5ACF13462AC722A400ED627B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF13452AC722A400ED627B /* SceneDelegate.swift */; };
-		5ACF134E2AC722A400ED627B /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF134C2AC722A400ED627B /* Tracker.xcdatamodeld */; };
+		5ACF134E2AC722A400ED627B /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5ACF134C2AC722A400ED627B /* Model.xcdatamodeld */; };
 		5ACF13502AC722A500ED627B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ACF134F2AC722A500ED627B /* Assets.xcassets */; };
 		5ACF13532AC722A500ED627B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ACF13512AC722A500ED627B /* LaunchScreen.storyboard */; };
 		5AD952222B07C5DC009B032C /* TrackerCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD952212B07C5DC009B032C /* TrackerCreationViewController.swift */; };
@@ -51,6 +52,7 @@
 		5A743E142B5C7E7E00E6C7BC /* RecordManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordManager.swift; sourceTree = "<group>"; };
 		5A743E162B5C85E500E6C7BC /* FormatDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatDate.swift; sourceTree = "<group>"; };
 		5A743E182B5C924200E6C7BC /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		5AC959902B5D5EE50014F9F1 /* DaysValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysValueTransformer.swift; sourceTree = "<group>"; };
 		5ACF13402AC722A400ED627B /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ACF13432AC722A400ED627B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5ACF13452AC722A400ED627B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				5A743E142B5C7E7E00E6C7BC /* RecordManager.swift */,
 				5A743E162B5C85E500E6C7BC /* FormatDate.swift */,
 				5A743E182B5C924200E6C7BC /* Date.swift */,
+				5AC959902B5D5EE50014F9F1 /* DaysValueTransformer.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -150,7 +153,7 @@
 				5ACF134F2AC722A500ED627B /* Assets.xcassets */,
 				5ACF13512AC722A500ED627B /* LaunchScreen.storyboard */,
 				5ACF13542AC722A500ED627B /* Info.plist */,
-				5ACF134C2AC722A400ED627B /* Tracker.xcdatamodeld */,
+				5ACF134C2AC722A400ED627B /* Model.xcdatamodeld */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -236,10 +239,11 @@
 			files = (
 				5A743E192B5C924200E6C7BC /* Date.swift in Sources */,
 				5A743E0B2B582B3600E6C7BC /* SupplementaryView.swift in Sources */,
-				5ACF134E2AC722A400ED627B /* Tracker.xcdatamodeld in Sources */,
+				5ACF134E2AC722A400ED627B /* Model.xcdatamodeld in Sources */,
 				5A743E172B5C85E500E6C7BC /* FormatDate.swift in Sources */,
 				5A142FE22ADAE6AD000457F2 /* TrackersViewController.swift in Sources */,
 				5A3081372B161FE900A82226 /* RaspisanieViewController.swift in Sources */,
+				5AC959912B5D5EE50014F9F1 /* DaysValueTransformer.swift in Sources */,
 				5ADD94842B0130F900404585 /* TrackersCollectionViewCell.swift in Sources */,
 				5A1CAA972AED32EF00E44D70 /* TrackerCategory.swift in Sources */,
 				5AD952242B0912D3009B032C /* PrivichkaViewController.swift in Sources */,
@@ -476,13 +480,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		5ACF134C2AC722A400ED627B /* Tracker.xcdatamodeld */ = {
+		5ACF134C2AC722A400ED627B /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				5ACF134D2AC722A400ED627B /* Tracker.xcdatamodel */,
 			);
 			currentVersion = 5ACF134D2AC722A400ED627B /* Tracker.xcdatamodel */;
-			path = Tracker.xcdatamodeld;
+			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

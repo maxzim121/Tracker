@@ -11,7 +11,6 @@ import UIKit
 final class TrackersCollectionViewCell: UICollectionViewCell {
     
     private var count: Int = 0
-    private var isSelectedDoneButton: Bool = false
     
     let backGround = UILabel()
     let buttonAndDays = UIStackView()
@@ -74,7 +73,8 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     
     private func configureDoneButton() {
         doneButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        doneButton.setImage(UIImage(named: "DoneButton"), for: .selected)
+        print("конфигурация кнопки")
+
         doneButton.tintColor = .white
         contentView.addSubview(doneButton)
         doneButton.translatesAutoresizingMaskIntoConstraints = false
@@ -136,20 +136,42 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     }
     
     func updateLableCountAndImageAddButton(count: Int, flag: Bool) {
+        print(flag, " FLAG")
         switch flag {
         case true:
             let image = UIImage(systemName: "checkmark")?.withRenderingMode(.alwaysTemplate)
             doneButton.setImage(image, for: .normal)
+
             self.count = count
             let textLable = endingWordDay(count: count)
             daysLabel.text = textLable
         case false:
             let image = UIImage(systemName: "plus")?.withRenderingMode(.alwaysTemplate)
             doneButton.setImage(image, for: .normal)
+
             self.count = count
             let textLable = endingWordDay(count: count)
             daysLabel.text = textLable
         }
+    }
+    
+    private func buttonImageSet(flag: Bool) {
+        if flag {
+            let image = UIImage(systemName: "checkmark")?.withRenderingMode(.alwaysTemplate)
+            doneButton.setImage(image, for: .normal)
+            print(doneButton)
+        } else {
+            let image = UIImage(systemName: "plus")?.withRenderingMode(.alwaysTemplate)
+            doneButton.setImage(image, for: .normal)
+            print(doneButton)
+        }
+    }
+    
+    func updateDaysAndButton(count: Int, isCompleted: Bool) {
+        let daysWord = endingWordDay(count: count)
+        print(isCompleted)
+        daysLabel.text = daysWord
+        buttonImageSet(flag: isCompleted)
     }
     
     @objc func doneButtonTapped() {

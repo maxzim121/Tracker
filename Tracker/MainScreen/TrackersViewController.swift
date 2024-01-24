@@ -231,12 +231,27 @@ extension TrackersViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! TrackersCollectionViewCell
         cell.delegate = self
+        let tracker = visibleCategories[indexPath.section].categoryTrackers[indexPath.row]
+        let dateCompare = Calendar.current.compare(Date(), to: currentDate, toGranularity: .day)
+        switch dateCompare {
+        case .orderedAscending:
+            cell.doneButton.isEnabled = false
+        case .orderedSame:
+            cell.doneButton.isEnabled = true
+        case .orderedDescending:
+            cell.doneButton.isEnabled = true
+        }
         cell.backgroundColor = .white
         cell.titleLabel.text = visibleCategories[indexPath.section].categoryTrackers[indexPath.row].name
         cell.emojiLabel.text = visibleCategories[indexPath.section].categoryTrackers[indexPath.row].emoji
         
         cell.backGround.backgroundColor = visibleCategories[indexPath.section].categoryTrackers[indexPath.row].color
         cell.doneButton.backgroundColor = cell.backGround.backgroundColor
+        let count = getCountIdForCompletedTrackers(id: tracker.id)
+        let isCompleted = completedTrackers.contains(where: { $0.id == tracker.id && equalityDates(lDate: currentDate, rDate: $0.date) })
+        
+        cell.updateDaysAndButton(count: count, isCompleted: isCompleted)
+        
         return cell
     }
     
