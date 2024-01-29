@@ -5,8 +5,8 @@ protocol SwitherDelegate: AnyObject {
     func switcherRecievedDay(cell: UITableViewCell, flag: Bool)
 }
 
-protocol RaspisanieDelegate: AnyObject {
-    func raspisanieRecieved(schedule: [WeekDay])
+protocol ScheduleDelegate: AnyObject {
+    func scheduleRecieved(schedule: [WeekDay])
 }
 
 protocol NewTrackersCategoryDelegate: AnyObject {

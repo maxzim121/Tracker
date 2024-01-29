@@ -60,11 +60,9 @@ final class ButtonCellView: UITableViewCell {
             stringListDay = "Каждый день"
             return stringListDay
         }
-        let listDay = schedule.map { $0.briefWordDay }
-        stringListDay = listDay.joined(separator: ",")
-        
-        return stringListDay
-    }
+        return schedule
+                   .map { $0.briefWordDay }
+                   .joined(separator: ",")    }
     
     
     

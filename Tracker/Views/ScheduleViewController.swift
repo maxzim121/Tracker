@@ -3,7 +3,7 @@ import UIKit
 
 final class RaspisaineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SwitherDelegate {
     
-    weak var delegate: RaspisanieDelegate?
+    weak var delegate: ScheduleDelegate?
     
     private let weekDay: [WeekDay] = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
     private var schedule: [WeekDay] = []
@@ -107,7 +107,7 @@ final class RaspisaineViewController: UIViewController, UITableViewDelegate, UIT
     
     @objc private func gotovoButtonTapped() {
         guard let delegate else { return }
-        delegate.raspisanieRecieved(schedule: schedule)
+        delegate.scheduleRecieved(schedule: schedule)
         self.dismiss(animated: true)
     }
     

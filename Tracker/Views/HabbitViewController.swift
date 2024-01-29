@@ -1,20 +1,20 @@
 import Foundation
 import UIKit
 
-final class PrivichkaViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RaspisanieDelegate, UITextFieldDelegate {
+final class HabbitViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ScheduleDelegate, UITextFieldDelegate {
     
-weak var delegate: TrackerCreationDelegate?
+    weak var delegate: TrackerCreationDelegate?
     
     private let recordManager: RecordManagerProtocol = RecordManager.shared
     
-    var isPrivichka = true
-    private var buttonsTableHeight: CGFloat { isPrivichka ? 150 : 75}
-    private var tableConfiguration: Int { isPrivichka ? 2 : 1 }
+    var isHabbit = true
+    private var buttonsTableHeight: CGFloat { isHabbit ? 150 : 75}
+    private var tableConfiguration: Int { isHabbit ? 2 : 1 }
     private var categoryName = "Категория"
-    private var raspisaniePrivichki: [WeekDay] = [] { didSet { checkingForEmptiness() } }
+    private var habbitSchedule: [WeekDay] = [] { didSet { checkingForEmptiness() } }
     private var selectedEmoji = "" { didSet { checkingForEmptiness() } }
     private var selectedColor: UIColor? { didSet { checkingForEmptiness() } }
-    private var namePrivichka: String = ""
+    private var nameHabbit: String = ""
     private let emoji: [String] = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶",
                                    "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝️", "😪"]
     private let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3,.colorSelection4,
@@ -23,7 +23,7 @@ weak var delegate: TrackerCreationDelegate?
                                      .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16,
                                      .colorSelection17, .colorSelection18]
     
-    private let raspisanieVC = RaspisaineViewController()
+    private let scheduleVC = RaspisaineViewController()
     
     private let buttonsLabels = ["Категория","Расписание"]
     private var cancelLabel = UILabel()
@@ -62,13 +62,13 @@ weak var delegate: TrackerCreationDelegate?
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        raspisanieVC.delegate = self
+        scheduleVC.delegate = self
         view.backgroundColor = .white
         configureViewLabel()
         configureButtonsStack()
         configureMainScroll()
-        if !isPrivichka {
-            raspisaniePrivichki = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+        if !isHabbit {
+            habbitSchedule = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
         }
         
     }
@@ -235,7 +235,7 @@ weak var delegate: TrackerCreationDelegate?
     }
     
     private func checkingForEmptiness() {
-        let flag = !raspisaniePrivichki.isEmpty && !namePrivichka.isEmpty && selectedColor != nil && !selectedEmoji.isEmpty ? true : false
+        let flag = !habbitSchedule.isEmpty && !nameHabbit.isEmpty && selectedColor != nil && !selectedEmoji.isEmpty ? true : false
         isActivCreateButton(flag: flag)
     }
     
@@ -244,20 +244,20 @@ weak var delegate: TrackerCreationDelegate?
         createButton.alpha = flag ? 1 : 0.5
     }
     
-    func raspisanieRecieved(schedule: [WeekDay]) {
-        raspisaniePrivichki = schedule
+    func scheduleRecieved(schedule: [WeekDay]) {
+        habbitSchedule = schedule
         buttonsTable.reloadData()
     }
     
     
     
-    @objc func switchToRaspisanieView() {
-        present(raspisanieVC, animated: true)
+    @objc func switchToScheduleView() {
+        present(scheduleVC, animated: true)
     }
     
     @objc private func createButtonTapped() {
         guard let selectedColor else { return }
-        let newTracker = Tracker(name: namePrivichka, id: UUID(), color: selectedColor, emoji: selectedEmoji, schedule: raspisaniePrivichki)
+        let newTracker = Tracker(name: nameHabbit, id: UUID(), color: selectedColor, emoji: selectedEmoji, schedule: habbitSchedule)
         //TODO: Передача нового полного трекера
         delegate?.sendTracker(tracker: newTracker, categoryName: categoryName)
         self.dismiss(animated: false, completion: nil)
@@ -270,7 +270,7 @@ weak var delegate: TrackerCreationDelegate?
     
     @objc private func textFieldDidChange(_ textField: UITextField) {
         guard let text = textField.text else { return }
-        namePrivichka = text
+        nameHabbit = text
         checkingForEmptiness()
     }
     
@@ -285,11 +285,11 @@ weak var delegate: TrackerCreationDelegate?
             cell.secondaryLabel.isHidden = false
             cell.secondaryLabel.text = "Категория"
         } else {
-            if raspisaniePrivichki.isEmpty {
+            if habbitSchedule.isEmpty {
                 return cell
             } else {
                 cell.secondaryLabel.isHidden = false
-                cell.secondaryLabel.text = cell.jonedSchedule(schedule: raspisaniePrivichki)
+                cell.secondaryLabel.text = cell.jonedSchedule(schedule: habbitSchedule)
             }
         }
         return cell
@@ -301,14 +301,14 @@ weak var delegate: TrackerCreationDelegate?
             case IndexPath(row: 0, section: 0):
                 print("ЗДЕСЬ БУДЕТ ПЕРЕХОД НА ДРУГОЙ ВЬЮ")
             case IndexPath(row: 1, section: 0):
-                switchToRaspisanieView()
+                switchToScheduleView()
             default:
                 return
             }
         }
 }
 
-extension PrivichkaViewController: UICollectionViewDataSource {
+extension HabbitViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 18
     }
@@ -351,7 +351,7 @@ extension PrivichkaViewController: UICollectionViewDataSource {
     }
 }
 
-extension PrivichkaViewController: UICollectionViewDelegate {
+extension HabbitViewController: UICollectionViewDelegate {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -383,7 +383,7 @@ extension PrivichkaViewController: UICollectionViewDelegate {
     }
 }
 
-extension PrivichkaViewController: UICollectionViewDelegateFlowLayout {
+extension HabbitViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
