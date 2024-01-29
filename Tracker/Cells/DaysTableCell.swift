@@ -11,9 +11,7 @@ import UIKit
 final class DaysTableCell: UITableViewCell {
     
     weak var delegate: SwitherDelegate?
-    
-    var privichkaView = PrivichkaViewController()
-    
+        
     var dayLabel = UILabel()
     var switcher = UISwitch()
     

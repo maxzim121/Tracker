@@ -4,7 +4,9 @@ import CoreData
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    static var container: NSPersistentContainer {
+        (UIApplication.shared.delegate as! AppDelegate).persistentContainer
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         DaysValueTransformer.register()

@@ -3,13 +3,13 @@ import UIKit
 
 final class TrackerCreationViewController: UIViewController, TrackerCreationDelegate {
     
-    private var privichkaViewController = PrivichkaViewController()
+    private var habbitViewController = HabbitViewController()
     
     weak var delegate: ReloadDataDelegate?
     
     private var viewLabel = UILabel()
-    private var privichkaButton = UIButton()
-    private var privichkaLabel = UILabel()
+    private var habbitButton = UIButton()
+    private var habbitLabel = UILabel()
     private var sobitieButton = UIButton()
     private var sobitieLabel = UILabel()
     private var buttonStack = UIStackView()
@@ -18,7 +18,7 @@ final class TrackerCreationViewController: UIViewController, TrackerCreationDele
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        privichkaViewController.delegate = self
+        habbitViewController.delegate = self
         configureViewLabel()
         configureStackView()
     }
@@ -35,7 +35,7 @@ final class TrackerCreationViewController: UIViewController, TrackerCreationDele
             buttonStack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             buttonStack.heightAnchor.constraint(equalToConstant: 136)
         ])
-        configurePrivichkaButton()
+        configureHabbitButton()
         configureSobitieButton()
     }
     
@@ -69,17 +69,17 @@ final class TrackerCreationViewController: UIViewController, TrackerCreationDele
         
     }
     
-    private func configurePrivichkaButton() {
+    private func configureHabbitButton() {
         
-        buttonStack.addArrangedSubview(privichkaButton)
-        privichkaButton.translatesAutoresizingMaskIntoConstraints = false
-        privichkaButton.backgroundColor = .black
-        privichkaButton.layer.cornerRadius = 16
+        buttonStack.addArrangedSubview(habbitButton)
+        habbitButton.translatesAutoresizingMaskIntoConstraints = false
+        habbitButton.backgroundColor = .black
+        habbitButton.layer.cornerRadius = 16
         NSLayoutConstraint.activate([
-            privichkaButton.heightAnchor.constraint(equalToConstant: 60)
+            habbitButton.heightAnchor.constraint(equalToConstant: 60)
         ])
-        configurePrivichkaLabel()
-        privichkaButton.addTarget(self, action: #selector(privichkaButtonTapped), for: .touchUpInside)
+        configureHabbitLabel()
+        habbitButton.addTarget(self, action: #selector(habbitButtonTapped), for: .touchUpInside)
 
         
     }
@@ -96,25 +96,27 @@ final class TrackerCreationViewController: UIViewController, TrackerCreationDele
         ])
     }
     
-    private func configurePrivichkaLabel() {
-        privichkaButton.addSubview(privichkaLabel)
-        privichkaLabel.translatesAutoresizingMaskIntoConstraints = false
-        privichkaLabel.text = "Привычка"
-        privichkaLabel.font = .systemFont(ofSize: 16)
-        privichkaLabel.textColor = .white
+    private func configureHabbitLabel() {
+        habbitButton.addSubview(habbitLabel)
+        habbitLabel.translatesAutoresizingMaskIntoConstraints = false
+        habbitLabel.text = "Привычка"
+        habbitLabel.font = .systemFont(ofSize: 16)
+        habbitLabel.textColor = .white
         NSLayoutConstraint.activate([
-            privichkaLabel.centerXAnchor.constraint(equalTo: privichkaButton.centerXAnchor),
-            privichkaLabel.centerYAnchor.constraint(equalTo: privichkaButton.centerYAnchor)
+            habbitLabel.centerXAnchor.constraint(equalTo: habbitButton.centerXAnchor),
+            habbitLabel.centerYAnchor.constraint(equalTo: habbitButton.centerYAnchor)
         ])
     }
     
     
     @objc func sobitieButtonTapped() {
-        
+        habbitViewController.isHabbit = false
+        self.present(habbitViewController, animated: true)
     }
     
-    @objc func privichkaButtonTapped() {
-        self.present(privichkaViewController, animated: true)
+    @objc func habbitButtonTapped() {
+        habbitViewController.isHabbit = true
+        self.present(habbitViewController, animated: true)
     }
     
     func sendTracker(tracker: Tracker, categoryName: String) {
