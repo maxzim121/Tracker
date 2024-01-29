@@ -54,6 +54,18 @@ final class ButtonCellView: UITableViewCell {
         
     }
     
+    func jonedSchedule(schedule: [WeekDay]) -> String {
+        var stringListDay: String
+        if schedule.count == 7 {
+            stringListDay = "Каждый день"
+            return stringListDay
+        }
+        let listDay = schedule.map { $0.briefWordDay }
+        stringListDay = listDay.joined(separator: ",")
+        
+        return stringListDay
+    }
+    
     
     
 }

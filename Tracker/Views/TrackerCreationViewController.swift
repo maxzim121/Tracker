@@ -110,10 +110,12 @@ final class TrackerCreationViewController: UIViewController, TrackerCreationDele
     
     
     @objc func sobitieButtonTapped() {
-        
+        privichkaViewController.isPrivichka = false
+        self.present(privichkaViewController, animated: true)
     }
     
     @objc func privichkaButtonTapped() {
+        privichkaViewController.isPrivichka = true
         self.present(privichkaViewController, animated: true)
     }
     

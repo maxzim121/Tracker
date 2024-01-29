@@ -8,9 +8,20 @@
 import Foundation
 import UIKit
 
-final class TrackersViewController: UIViewController, ReloadDataDelegate, TrackersCollectionViewCellDelegate {
+enum StoreError: Error {
+    case modelNotFound
+    case failedToLoadPersistentContainer(Error)
+    case failedToRecordModel(Error)
+    case failedToDeleteModel(Error)
+    case failedToUpdateModel(Error)
+}
+
+final class TrackersViewController: UIViewController, ReloadDataDelegate, TrackersCollectionViewCellDelegate, DataProviderDelegate {
+    
     
     private var recordManager: RecordManagerProtocol = RecordManager.shared
+    
+    private var dataProvider: DataProviderProtocol?
     
     private var categories: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []
@@ -37,7 +48,11 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        categories = recordManager.getCategories()
+        dataProvider = try? DataProvider(self)
+        guard let dataProvider else { return }
+        completedTrackers = dataProvider.treckersRecords
+        categories = dataProvider.trackerCategory
+        visibleCategories = categories
         trackersCollectionView.dataSource = self
         trackersCollectionView.delegate = self
         configureScreen()
@@ -196,6 +211,8 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
     
     private func showListTrackersForDay(trackerCategory: [TrackerCategory]) {
         let listCategories = filterListTrackersWeekDay(trackerCategory: trackerCategory, date: currentDate)
+        guard let dataProvider else { return }
+        visibleCategories = dataProvider.trackerCategory
         updateTrackerCollectionView(trackerCategory: listCategories)
     }
     
@@ -210,6 +227,44 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
         }
 
         trackersCollectionView.reloadData()
+    }
+    
+    func storeCategory(_ at: DataProvider, indexPath: IndexPath) {
+        guard let dataProvider else { return }
+        let oldCount = visibleCategories.count
+        visibleCategories = dataProvider.trackerCategory
+        categories = visibleCategories
+        let newCount = visibleCategories.count
+        let indexSet = IndexSet(integer: indexPath.section)
+        if oldCount != newCount {
+            trackersCollectionView.insertSections(indexSet)
+            if categories.isEmpty {
+                sloganLabel.isHidden = false
+                starGrayImage.isHidden = false
+            } else {
+                sloganLabel.isHidden = true
+                starGrayImage.isHidden = true
+            }
+
+            return
+        }
+        trackersCollectionView.reloadSections(indexSet)
+        if categories.isEmpty {
+            sloganLabel.isHidden = false
+            starGrayImage.isHidden = false
+        } else {
+            sloganLabel.isHidden = true
+            starGrayImage.isHidden = true
+        }
+
+    }
+    
+    private func showMessageErrorAlert(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .cancel) { _ in
+            alert.dismiss(animated: true)
+        }
+        alert.addAction(action)
     }
     
     @objc func dateChanged() {
@@ -229,7 +284,10 @@ extension TrackersViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! TrackersCollectionViewCell
+        guard let dataProvider,
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? TrackersCollectionViewCell
+        else { return UICollectionViewCell() }
+        
         cell.delegate = self
         let tracker = visibleCategories[indexPath.section].categoryTrackers[indexPath.row]
         let dateCompare = Calendar.current.compare(Date(), to: currentDate, toGranularity: .day)
@@ -241,16 +299,21 @@ extension TrackersViewController: UICollectionViewDataSource {
         case .orderedDescending:
             cell.doneButton.isEnabled = true
         }
-        cell.backgroundColor = .white
-        cell.titleLabel.text = visibleCategories[indexPath.section].categoryTrackers[indexPath.row].name
-        cell.emojiLabel.text = visibleCategories[indexPath.section].categoryTrackers[indexPath.row].emoji
-        
-        cell.backGround.backgroundColor = visibleCategories[indexPath.section].categoryTrackers[indexPath.row].color
-        cell.doneButton.backgroundColor = cell.backGround.backgroundColor
-        let count = getCountIdForCompletedTrackers(id: tracker.id)
-        let isCompleted = completedTrackers.contains(where: { $0.id == tracker.id && equalityDates(lDate: currentDate, rDate: $0.date) })
-        
-        cell.updateDaysAndButton(count: count, isCompleted: isCompleted)
+        do {
+            cell.backgroundColor = .white
+            cell.titleLabel.text = visibleCategories[indexPath.section].categoryTrackers[indexPath.row].name
+            cell.emojiLabel.text = visibleCategories[indexPath.section].categoryTrackers[indexPath.row].emoji
+            
+            cell.backGround.backgroundColor = visibleCategories[indexPath.section].categoryTrackers[indexPath.row].color
+            cell.doneButton.backgroundColor = cell.backGround.backgroundColor
+            let count = try dataProvider.loadTrackerRecord(id: tracker.id)
+            let isCompleted = completedTrackers.contains(where: { $0.id == tracker.id && equalityDates(lDate: currentDate, rDate: $0.date) })
+            
+            cell.updateDaysAndButton(count: count, isCompleted: isCompleted)
+        } catch {
+            let errorCount = TrackreRecordStoreError.loadTrackerRecord
+            showMessageErrorAlert(message: "\(String(describing: errorCount))")
+        }
         
         return cell
     }
@@ -314,22 +377,25 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController {
     func reloadData(tracker: Tracker, categoryName: String) {
-        categories = recordManager.getCategories()
-        if categories.isEmpty {
-            categories.append(TrackerCategory(categoryName: categoryName, categoryTrackers: [tracker]))
-            recordManager.updateCategories(newCategories: categories)
-        } else {
-            for cat in 0..<categories.count {
-                if categories[cat].categoryName == categoryName {
-                    var newTrackers = categories[cat].categoryTrackers
-                    newTrackers.append(tracker)
-                    let newCategory = TrackerCategory(categoryName: categories[cat].categoryName, categoryTrackers: newTrackers)
-                    categories[cat] = newCategory
+        guard let dataProvider else { return }
+        for (index, value) in visibleCategories.enumerated() {
+            if value.categoryName.lowercased() == categoryName.lowercased() {
+                let category = visibleCategories[index]
+                do {
+                    try dataProvider.addTracker(category, tracker: tracker)
+                } catch {
+                    let updateError = StoreError.failedToUpdateModel(error)
+                    showMessageErrorAlert(message: "\(updateError)")
                 }
+                return
             }
         }
-        
-        
+        do {
+            try dataProvider.addNewCategory(categoryName, tracker: tracker)
+        } catch {
+            let addError = StoreError.failedToRecordModel(error)
+            showMessageErrorAlert(message: "\(addError)")
+        }
         showListTrackersForDay(trackerCategory: categories)
     }
 }
@@ -361,30 +427,34 @@ extension TrackersViewController {
         else { return }
         let tracker = visibleCategories[indexPath.section].categoryTrackers[indexPath.row]
         let recordTracker = completedTrackers.first(where: { $0.id == tracker.id && equalityDates(lDate: currentDate, rDate: $0.date) })
-        updateCompleted(recordTracker: recordTracker, cell: trackerCell, flag: recordTracker != nil, tracker: tracker)
+        updateCompleted(recordTracker: recordTracker, cell: trackerCell, indexPath: indexPath, flag: recordTracker != nil, tracker: tracker)
     }
     
     private func updateCompleted(recordTracker: TrackerRecord?,
                                  cell: TrackersCollectionViewCell,
+                                 indexPath: IndexPath,
                                  flag: Bool,
                                  tracker: Tracker) {
         if let recordTracker {
+            do {
+                try dataProvider?.deleteTrackerRecord(recordTracker)
+            } catch {
+                let deleteError = StoreError.failedToRecordModel(error)
+                showMessageErrorAlert(message: "\(deleteError)")
+            }
             completedTrackers.remove(recordTracker)
-            let newCount = getCountIdForCompletedTrackers(id: tracker.id)
-            cell.updateLableCountAndImageAddButton(count: newCount, flag: !flag)
+            trackersCollectionView.reloadItems(at: [indexPath])
             return
         }
         let newTracker = TrackerRecord(id: tracker.id, date: currentDate)
+        do {
+            try dataProvider?.addNewTrackerRecord(newTracker)
+        } catch {
+            let recordError = StoreError.failedToRecordModel(error)
+            showMessageErrorAlert(message: "\(recordError)")
+        }
         completedTrackers.insert(newTracker)
-        let newCount = getCountIdForCompletedTrackers(id: tracker.id)
-        cell.updateLableCountAndImageAddButton(count: newCount, flag: !flag)
-    }
-    
-    private func getCountIdForCompletedTrackers(id: UUID) -> Int {
-        let countTrackerRecord = completedTrackers.filter { $0.id == id }
-        let count = countTrackerRecord.count
-        
-        return count
+        trackersCollectionView.reloadItems(at: [indexPath])
     }
     
     func equalityDates(lDate: Date, rDate: Date?) -> Bool {
