@@ -2,7 +2,7 @@ import Foundation
 import CoreData
 
 protocol DataProviderDelegate: AnyObject {
-    func storeCategory(_ at: DataProvider, indexPath: IndexPath)
+    func storeCategory(dataProvider: DataProvider, indexPath: IndexPath)
 }
 
 protocol DataProviderProtocol {
@@ -28,7 +28,7 @@ final class DataProvider: NSObject {
     
     private var indexPathCategory: IndexPath?
         
-    init(_ delegate: DataProviderDelegate) throws {
+    init(delegate: DataProviderDelegate) {
         let context = AppDelegate.container.viewContext
         self.delegate = delegate
         self.context = context
@@ -101,6 +101,10 @@ extension DataProvider: DataProviderProtocol {
         try trackerStore.addNewTracker(tracker, category: category)
     }
     
+    func addCategory(nameCategory: String) throws {
+        try trackerCategoryStore.addCategory(nameCategory)
+    }
+    
     func addNewCategory(_ nameCategori: String, tracker: Tracker) throws {
         let trackerCoreData = TrackerCoreData(context: context)
         try trackerStore.update(trackerCoreData, tracker: tracker)
@@ -151,7 +155,7 @@ extension DataProvider: NSFetchedResultsControllerDelegate {
         guard let delegate,
               let indexPathCategory
         else { return }
-        delegate.storeCategory(self, indexPath: indexPathCategory)
+        delegate.storeCategory(dataProvider: self, indexPath: indexPathCategory)
         self.indexPathCategory = nil
     }
     

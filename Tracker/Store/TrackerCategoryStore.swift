@@ -12,6 +12,7 @@ enum NSSetError: Error {
 
 protocol TrackerCategoryStoreProtocol {
     func addNewCategory(nameCategory: String, trackerCoreData: TrackerCoreData) throws
+    func addCategory(_ nameCategory: String) throws
 }
 
 final class TrackerCategoryStore: NSObject {
@@ -37,4 +38,12 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol {
         categoryCoreData.addToTrackers(trackerCoreData)
         try context.save()
     }
+    
+    func addCategory(_ nameCategory: String) throws {
+        let categoryCoreData = TrackerCategoryCoreData(context: context)
+        categoryCoreData.nameCategory = nameCategory
+        try context.save()
+    }
+
+    
 }

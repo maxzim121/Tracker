@@ -48,7 +48,7 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataProvider = try? DataProvider(self)
+        dataProvider = try? DataProvider(delegate: self)
         guard let dataProvider else { return }
         completedTrackers = dataProvider.treckersRecords
         categories = dataProvider.trackerCategory
@@ -229,34 +229,11 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
         trackersCollectionView.reloadData()
     }
     
-    func storeCategory(_ at: DataProvider, indexPath: IndexPath) {
+    func storeCategory(dataProvider at: DataProvider, indexPath: IndexPath) {
         guard let dataProvider else { return }
-        let oldCount = visibleCategories.count
         visibleCategories = dataProvider.trackerCategory
         categories = visibleCategories
-        let newCount = visibleCategories.count
-        let indexSet = IndexSet(integer: indexPath.section)
-        if oldCount != newCount {
-            trackersCollectionView.insertSections(indexSet)
-            if categories.isEmpty {
-                sloganLabel.isHidden = false
-                starGrayImage.isHidden = false
-            } else {
-                sloganLabel.isHidden = true
-                starGrayImage.isHidden = true
-            }
-
-            return
-        }
-        trackersCollectionView.reloadSections(indexSet)
-        if categories.isEmpty {
-            sloganLabel.isHidden = false
-            starGrayImage.isHidden = false
-        } else {
-            sloganLabel.isHidden = true
-            starGrayImage.isHidden = true
-        }
-
+        showListTrackersForDay(trackerCategory: categories)
     }
     
     private func showMessageErrorAlert(message: String) {
