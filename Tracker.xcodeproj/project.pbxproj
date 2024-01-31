@@ -196,8 +196,8 @@
 			isa = PBXGroup;
 			children = (
 				5A743E102B59782600E6C7BC /* Delegates.swift */,
-				5A743E122B5C4DEB00E6C7BC /* UITextFiield.swift */,
 				5A743E142B5C7E7E00E6C7BC /* RecordManager.swift */,
+				5A743E122B5C4DEB00E6C7BC /* UITextFiield.swift */,
 				5A743E162B5C85E500E6C7BC /* FormatDate.swift */,
 				5A743E182B5C924200E6C7BC /* Date.swift */,
 				5AC959902B5D5EE50014F9F1 /* DaysValueTransformer.swift */,

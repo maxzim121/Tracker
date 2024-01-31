@@ -9,7 +9,7 @@ protocol DataProviderProtocol {
     var trackerCategory: [TrackerCategory] { get }
     var treckersRecords: Set<TrackerRecord> { get }
     
-    func addTracker(_ category: TrackerCategory, tracker: Tracker) throws
+    func addTracker(_ nameCategory: String, tracker: Tracker) throws
     func addNewCategory(_ nameCategori: String, tracker: Tracker) throws
     
     func addNewTrackerRecord(_ trackerRecord: TrackerRecord) throws
@@ -91,15 +91,15 @@ extension DataProvider: DataProviderProtocol {
         guard let objects = fetchedCategoryResultController.fetchedObjects
         else { return [] }
         let treckerCategory = trackersCategoryResult(trackerCategoryCoreData: objects)
-        
         return treckerCategory
     }
     
-    func addTracker(_ category: TrackerCategory, tracker: Tracker) throws {
+    func addTracker(_ nameCategory: String, tracker: Tracker) throws {
         fetchedCategoryResultController.delegate = nil
         let _ = fetchedTrackerResultController.fetchedObjects
-        try trackerStore.addNewTracker(tracker, category: category)
+        try trackerStore.addNewTracker(tracker, nameCategory: nameCategory)
     }
+
     
     func addCategory(nameCategory: String) throws {
         try trackerCategoryStore.addCategory(nameCategory)

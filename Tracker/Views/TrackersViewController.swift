@@ -214,6 +214,7 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
         guard let dataProvider else { return }
         visibleCategories = dataProvider.trackerCategory
         updateTrackerCollectionView(trackerCategory: listCategories)
+
     }
     
     private func updateTrackerCollectionView(trackerCategory: [TrackerCategory]) {
@@ -233,7 +234,7 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
         guard let dataProvider else { return }
         visibleCategories = dataProvider.trackerCategory
         categories = visibleCategories
-        showListTrackersForDay(trackerCategory: categories)
+        showListTrackersForDay(trackerCategory: dataProvider.trackerCategory)
     }
     
     private func showMessageErrorAlert(message: String) {
@@ -355,25 +356,14 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 extension TrackersViewController {
     func reloadData(tracker: Tracker, categoryName: String) {
         guard let dataProvider else { return }
-        for (index, value) in visibleCategories.enumerated() {
-            if value.categoryName.lowercased() == categoryName.lowercased() {
-                let category = visibleCategories[index]
-                do {
-                    try dataProvider.addTracker(category, tracker: tracker)
-                } catch {
-                    let updateError = StoreError.failedToUpdateModel(error)
-                    showMessageErrorAlert(message: "\(updateError)")
-                }
-                return
-            }
-        }
+
         do {
-            try dataProvider.addNewCategory(categoryName, tracker: tracker)
+            try dataProvider.addTracker(categoryName, tracker: tracker)
         } catch {
-            let addError = StoreError.failedToRecordModel(error)
-            showMessageErrorAlert(message: "\(addError)")
+            let updateError = StoreError.failedToUpdateModel(error)
+            showMessageErrorAlert(message: "\(updateError)")
         }
-        showListTrackersForDay(trackerCategory: categories)
+        
     }
 }
 

@@ -250,6 +250,5 @@ extension CategoryViewController: NewCategoryViewControllerDelegate {
         }
         
         try? viewModel.addCategory(nameCategory: nameCategori)
-
     }
 }
