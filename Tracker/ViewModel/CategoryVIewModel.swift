@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 final class CategoryViewModel {
     @Observable<[TrackerCategory]> private(set) var category = []

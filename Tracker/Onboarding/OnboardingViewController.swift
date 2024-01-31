@@ -30,7 +30,8 @@ final class OnboardingViewController: UIViewController {
     
     private lazy var startButton: UIButton = {
         let startButton = UIButton()
-        startButton.setTitle("Вот это технологии!", for: .normal)
+        let textButton = NSLocalizedString("textButton", comment: "Text displayed on empty state")
+        startButton.setTitle(textButton, for: .normal)
         startButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         startButton.titleLabel?.textColor = .white
         startButton.addTarget(self, action: #selector(showViewController), for: .touchUpInside)

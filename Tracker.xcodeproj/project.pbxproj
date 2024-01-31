@@ -31,6 +31,7 @@
 		5A54C60C2B685E41008B0284 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A54C60B2B685E41008B0284 /* CategoryTableViewCell.swift */; };
 		5A54C60E2B685FB6008B0284 /* CategoryCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A54C60D2B685FB6008B0284 /* CategoryCellModel.swift */; };
 		5A54C6102B68E3DD008B0284 /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A54C60F2B68E3DD008B0284 /* NewCategoryViewController.swift */; };
+		5A54C6142B6A5B05008B0284 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5A54C6162B6A5B05008B0284 /* Localizable.strings */; };
 		5A69D5952B0E2C5800ED6F93 /* ButtonCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69D5942B0E2C5800ED6F93 /* ButtonCellView.swift */; };
 		5A743E0B2B582B3600E6C7BC /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A743E0A2B582B3600E6C7BC /* SupplementaryView.swift */; };
 		5A743E0D2B58396E00E6C7BC /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A743E0C2B58396E00E6C7BC /* Schedule.swift */; };
@@ -78,6 +79,8 @@
 		5A54C60B2B685E41008B0284 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		5A54C60D2B685FB6008B0284 /* CategoryCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCellModel.swift; sourceTree = "<group>"; };
 		5A54C60F2B68E3DD008B0284 /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
+		5A54C6152B6A5B05008B0284 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5A54C6172B6A5BCE008B0284 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5A69D5942B0E2C5800ED6F93 /* ButtonCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCellView.swift; sourceTree = "<group>"; };
 		5A743E0A2B582B3600E6C7BC /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
 		5A743E0C2B58396E00E6C7BC /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
@@ -192,6 +195,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		5A54C6112B6A5AC8008B0284 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5A54C6162B6A5B05008B0284 /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		5A743E0F2B59781200E6C7BC /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +238,7 @@
 		5ACF13422AC722A400ED627B /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				5A54C6112B6A5AC8008B0284 /* Resources */,
 				5A54C6062B685AFE008B0284 /* ViewModel */,
 				5A54C6052B68538F008B0284 /* PropertyWrappers */,
 				5A54C5FA2B6841A8008B0284 /* Onboarding */,
@@ -287,6 +299,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 5ACF13372AC722A400ED627B;
 			productRefGroup = 5ACF13412AC722A400ED627B /* Products */;
@@ -304,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5ACF13532AC722A500ED627B /* LaunchScreen.storyboard in Resources */,
+				5A54C6142B6A5B05008B0284 /* Localizable.strings in Resources */,
 				5ACF13502AC722A500ED627B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,6 +377,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		5A54C6162B6A5B05008B0284 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5A54C6152B6A5B05008B0284 /* en */,
+				5A54C6172B6A5BCE008B0284 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		5ACF13512AC722A500ED627B /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -378,6 +401,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -438,6 +462,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

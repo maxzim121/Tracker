@@ -40,7 +40,8 @@ final class TrackerCreationViewController: UIViewController, TrackerCreationDele
     }
     
     private func configureViewLabel() {
-        viewLabel.text = "Создание трекера"
+        let texGreatetLabelName = NSLocalizedString("texGreatetLabelName", comment: "")
+        viewLabel.text = texGreatetLabelName
         viewLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(viewLabel)
         viewLabel.textAlignment = .center
@@ -87,7 +88,8 @@ final class TrackerCreationViewController: UIViewController, TrackerCreationDele
     private func configureSobitieLabel() {
         sobitieButton.addSubview(sobitieLabel)
         sobitieLabel.translatesAutoresizingMaskIntoConstraints = false
-        sobitieLabel.text = "Нерегулярное событие"
+        let nameIrregularEvent = NSLocalizedString("nameIrregularEvent", comment: "")
+        sobitieLabel.text = nameIrregularEvent
         sobitieLabel.font = .systemFont(ofSize: 16)
         sobitieLabel.textColor = .white
         NSLayoutConstraint.activate([
@@ -99,7 +101,8 @@ final class TrackerCreationViewController: UIViewController, TrackerCreationDele
     private func configureHabbitLabel() {
         habbitButton.addSubview(habbitLabel)
         habbitLabel.translatesAutoresizingMaskIntoConstraints = false
-        habbitLabel.text = "Привычка"
+        let nameHabit = NSLocalizedString("nameHabit", comment: "")
+        habbitLabel.text = nameHabit
         habbitLabel.font = .systemFont(ofSize: 16)
         habbitLabel.textColor = .white
         NSLayoutConstraint.activate([

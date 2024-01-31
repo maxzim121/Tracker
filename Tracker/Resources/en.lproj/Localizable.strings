@@ -1,0 +1,118 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Maksim Zimens on 31.01.2024.
+  
+*/
+
+//MARK: - OnboardingViewController
+"textLableOneVC" = "Track only what you want";
+"textLableTwoVC" = "Even if it's not liters of water and yoga";
+"textButton" = "These are technologies!";
+
+//MARK: - TabBarController
+"trackers" = "Trackers";
+"statistics" = "Statistics";
+
+//MARK: - Trackers
+"allTrackers" = "All Trackers";
+"toDayTrackers" = "Trackers for today";
+"completed" = "Completed";
+"notCompleted" = "Not Completed";
+
+//MARK: - StatisticViewController
+"headerStatisticText" = "Statistics";
+"labelStubStatisticsText" = "There is nothing to analyze yet";
+"secondaryStatisticText" = "Trackers completed";
+
+//MARK: - TrackersViewController
+"headerText" = "Trackers";
+"labelStabText" = "What will we track?";
+"labelNothingFoundText" = "Nothing found";
+"placeholderSearch" = "Search";
+"textCancel" = "Cancel";
+"textFix" = "To fix";
+"textUnpin" = "Unpin";
+"textEdit" = "Edit";
+"textDelete" = "Delete";
+"textFixed" = "Fixed";
+"sureDeleteTracker" = "are you sure you want to delete the tracker";
+"filters" = "filters";
+
+//MARK: - CreateTrackerViewController
+"placeholderTrackerTextField" = "Enter the name of the tracker";
+"textCancelButton" = "Cancel";
+"textGreateButton" = "To create";
+"characterLimit" = "Limit of 38 characters";
+"everyDay" = "Every day";
+
+//MARK: - ScheduleViewController
+"scheduleLableText" = "Schedule";
+"doneButtonText" = "Done";
+
+//MARK: - EventSelectionViewController
+"texGreatetLabelName" = "Creating a tracker";
+"newHabit" = "A new habit";
+"newIrregular" = "New irregular event";
+
+//MARK: - CreateCategoriesViewController
+"categoriLabelText" = "Category";
+"categoriAddButtonText" = "Add a categorycategory";
+"labelStabText" = "Habits and events can be combined in meaning";
+"deleteCategoryMessage" = "Are you sure you don't need this category?";
+
+//MARK: - NewCategoriViewController
+"newcategoriLabelText" = "New category";
+"buttonName" = "Done";
+"placeholderCategoryTextField" = "Enter the category name";
+
+//MARK: - NameEvent
+"nameHabit" = "Habit";
+"nameIrregularEvent" = "IrregularEvent";
+
+//MARK: - Header
+"stringColor" = "Color";
+
+//MARK: - ChoiceParametrs
+"category" = "Category";
+"schedule" = "Schedule";
+
+//MARK: - WeekDay
+"monday.complete" = "Monday";
+"tuesday.complete" = "Tuesday";
+"wednesday.complete" = "Wednesday";
+"thursday.complete" = "Thursday";
+"friday.complete" = "Friday";
+"saturday.complete" = "Saturday";
+"sunday.complete" = "Sunday";
+
+"monday" = "Mon";
+"tuesday" = "Tue";
+"wednesday" = "Wed";
+"thursday" = "Thur";
+"friday" = "Fri";
+"saturday" = "Sat";
+"sunday" = "Sun";
+
+//MARK: - ErrorLocalizedDescription
+"decodingErrorInvalidNameCategory" = "Error decoding the category name";
+"getCategoryCoreDataError" = "Error getting a category from the database";
+
+"getTrackerError" = "Error getting the tracker from the database";
+"decodingErrorInvalidName" = "Error decoding the tracker name";
+"decodingErrorInvalidId" = "Id decoding error";
+"decodingErrorInvalidColor" = "Error decoding the background color of the tracker";
+"decodingErrorInvalidEmoji" = "Error decoding the Emoji tracker";
+"decodingErrorInvalidSchedul" = "Tracker schedule decoding error";
+
+"transformationErrorInvalid" = "Transformation error";
+"decodingErrorInvalidDate" = "Date decoding error";
+"loadTrackerRecord" = "Error loading completed trackers";
+"getTrackerRecord" = "Error receiving the tracker";
+
+//MARK: - StatisticsEvent
+"bestPeriod" = "Best period";
+"perfectDays" = "Perfect days";
+"trackersCompleted" = "Trackers completed";
+"averageValue" = "Average Value";

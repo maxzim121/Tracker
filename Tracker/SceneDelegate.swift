@@ -22,7 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let onboardingVC = OnboardingPageViewController(transitionStyle: .scroll,
                                                             navigationOrientation: .horizontal)
             let oneWisibleVc = OnboardingViewController()
-            let model = Onboarding(imageName: "firstPage", textLable: "Отслеживайте только то, что хотите")
+            let textLableOneVC = NSLocalizedString("textLableOneVC", comment: "")
+            let model = Onboarding(imageName: "firstPage", textLable: textLableOneVC)
             oneWisibleVc.config(model: model)
             onboardingVC.setViewControllers([oneWisibleVc], direction: .forward, animated: true)
             rootViewController = onboardingVC

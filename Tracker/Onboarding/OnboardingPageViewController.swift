@@ -50,8 +50,9 @@ extension OnboardingPageViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         let twoViewControllers = OnboardingViewController()
+        let textLableTwoVC = NSLocalizedString("textLableTwoVC", comment: "")
         let onboardingModelTwoVC = Onboarding(imageName: "secondPage",
-                                              textLable: "Даже если это не литры воды и йога")
+                                              textLable: textLableTwoVC)
         twoViewControllers.config(model: onboardingModelTwoVC)
         if currentIndex == 2 {
             return nil

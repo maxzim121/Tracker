@@ -31,7 +31,10 @@ final class HabbitViewController: UIViewController, UITableViewDelegate, UITable
     
     private let scheduleVC = RaspisaineViewController()
     
-    private let buttonsLabels = ["Категория","Расписание"]
+    private let scheduleLableText = NSLocalizedString("scheduleLableText", comment: "")
+    private let categoriLabelText = NSLocalizedString("categoriLabelText", comment: "")
+    
+    private var buttonsLabels: [String] = []
     private var cancelLabel = UILabel()
     private var createLabel = UILabel()
     private var viewLabel = UILabel()
@@ -286,6 +289,8 @@ final class HabbitViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = buttonsTable.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ButtonCellView
+        buttonsLabels.append(categoriLabelText)
+        buttonsLabels.append(scheduleLableText)
         cell.label.text = buttonsLabels[indexPath.row]
         if indexPath.row == 0 {
             if categoryName.isEmpty {

@@ -92,7 +92,8 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
     private func configureTrackersLabel() {
         view.addSubview(trackersLabel)
         trackersLabel.translatesAutoresizingMaskIntoConstraints = false
-        trackersLabel.text = "Трекеры"
+        let headerText = NSLocalizedString("headerText", comment: "")
+        trackersLabel.text = headerText
         trackersLabel.font = UIFont.boldSystemFont(ofSize: 34)
         trackersLabel.textColor = .black
         NSLayoutConstraint.activate([
@@ -122,7 +123,8 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
             searchBar.topAnchor.constraint(equalTo: trackersLabel.bottomAnchor, constant: 0)
         ])
         searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = "Поиск"
+        let placeholderSearch = NSLocalizedString("placeholderSearch", comment: "")
+        searchBar.placeholder = placeholderSearch
     }
     
     private func configureStarImage() {
@@ -140,7 +142,8 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
     private func configureSloganLabel() {
         view.addSubview(sloganLabel)
         sloganLabel.translatesAutoresizingMaskIntoConstraints = false
-        sloganLabel.text = "Что будем отслеживать?"
+        let labelStabText = NSLocalizedString("labelStabText", comment: "")
+        sloganLabel.text = labelStabText
         sloganLabel.font = UIFont.systemFont(ofSize: 12)
         sloganLabel.textAlignment = .center
         NSLayoutConstraint.activate([
@@ -355,6 +358,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController {
     func reloadData(tracker: Tracker, categoryName: String) {
+        dataProvider = try? DataProvider(delegate: self)
         guard let dataProvider else { return }
 
         do {
@@ -363,7 +367,6 @@ extension TrackersViewController {
             let updateError = StoreError.failedToUpdateModel(error)
             showMessageErrorAlert(message: "\(updateError)")
         }
-        
     }
 }
 
