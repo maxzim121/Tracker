@@ -1,0 +1,118 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Maksim Zimens on 31.01.2024.
+  
+*/
+
+//MARK: - Onboarding
+"textLableOneVC" = "Отслеживайте только то, что хотите";
+"textLableTwoVC" = "Даже если это не литры воды и йога";
+"textButton" = "Вот это технологии!";
+
+//MARK: - TabBarController
+"trackers" = "Трекеры";
+"statistics" = "Статистика";
+
+//MARK: - Trackers
+"allTrackers" = "Все трекеры";
+"toDayTrackers" = "Трекеры на сегодня";
+"completed" = "Завершенные";
+"notCompleted" = "Не завершенные";
+
+//MARK: - StatisticViewController
+"headerStatisticText" = "Статистика";
+"labelStubStatisticsText" = "Анализировать пока нечего";
+"secondaryStatisticText" = "Трекеров завершено";
+
+//MARK: - TrackersViewController
+"headerText" = "Трекеры";
+"labelStabText" = "Что будем отслеживать?";
+"labelNothingFoundText" = "Ничего не найдено";
+"placeholderSearch" = "Поиск";
+"textCancel" = "Отменить";
+"textFix" = "Закрепить";
+"textUnpin" = "Открепить";
+"textEdit" = "Редактировать";
+"textDelete" = "Удалить";
+"textFixed" = "Закрепленные";
+"sureDeleteTracker" = "Уверены что хотите удалить трекер?";
+"filters" = "Фильтры";
+
+//MARK: - CreateTrackerViewController
+"placeholderTrackerTextField" = "Введите название трекера";
+"textCancelButton" = "Отменить";
+"textGreateButton" = "Создать";
+"characterLimit" = "Ограничение 38 символов";
+"everyDay" = "Каждый день";
+
+//MARK: - ScheduleViewController
+"scheduleLableText" = "Расписание";
+"doneButtonText" = "Готово";
+
+//MARK: - EventSelectionViewController
+"texGreatetLabelName" = "Создание трекера";
+"newHabit" = "Новая привычка";
+"newIrregular" = "Новое нерегулярное событие";
+
+//MARK: - CreateCategoriesViewController
+"categoriLabelText" = "Категория";
+"categoriAddButtonText" = "Добавить категорию";
+"labelStabText" = "Привычки и события можно обЪединить по смыслу";
+"deleteCategoryMessage" = "Эта категория точно не нужна?";
+
+//MARK: - NewCategoriViewController
+"newcategoriLabelText" = "Новая категория";
+"buttonName" = "Готово";
+"placeholderCategoryTextField" = "Введите название категории";
+
+//MARK: - NameEvent
+"nameHabit" = "Привычка";
+"nameIrregularEvent" = "Нерегулярное событие";
+
+//MARK: - Header
+"stringColor" = "Цвет";
+
+//MARK: - ChoiceParametrs
+"category" = "Категория";
+"schedule" = "Расписание";
+
+//MARK: - WeekDay
+"monday.complete" = "Понедельник";
+"tuesday.complete" = "Вторник";
+"wednesday.complete" = "Среда";
+"thursday.complete" = "Четверг";
+"friday.complete" = "Пятница";
+"saturday.complete" = "Суббота";
+"sunday.complete" = "Воскресенье";
+
+"monday" = "Пн";
+"tuesday" = "Вт";
+"wednesday" = "Ср";
+"thursday" = "Чт";
+"friday" = "Пт";
+"saturday" = "Сб";
+"sunday" = "Вс";
+
+//MARK: - ErrorLocalizedDescription
+"decodingErrorInvalidNameCategory" = "Ошибка декодирования названия категории";
+"getCategoryCoreDataError" = "Ошибка получения категории из базы данных";
+
+"getTrackerError" = "Ошибка получения трекера из базы данных";
+"decodingErrorInvalidName" = "Ошибка декодирования названия трекера";
+"decodingErrorInvalidId" = "Ошибка декодирования Id";
+"decodingErrorInvalidColor" = "Ошибка декодирования цвета фона трекера";
+"decodingErrorInvalidEmoji" = "Ошибка декодирования Emoji трекера";
+"decodingErrorInvalidSchedul" = "Ошибка декодирования расписания трекера";
+
+"transformationErrorInvalid" = "Ошибка трансформации";
+"decodingErrorInvalidDate" = "Ошибка декодирования даты";
+"loadTrackerRecord" = "Ошибка загрузки выполненных трекеров";
+"getTrackerRecord" = "Ошибка получения трекера";
+
+//MARK: - StatisticsEvent
+"bestPeriod" = "Лучший период";
+"perfectDays" = "Идеальные дни";
+"trackersCompleted" = "Трекеров завершено";
+"averageValue" = "Среднее значение";

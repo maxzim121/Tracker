@@ -10,15 +10,27 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    
+    @UserDefaultsBacked<Bool>(key: "is_onboarding") private var isOnboarding
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
-        let window = UIWindow(windowScene: scene)
-        let main = TabBarViewController()
-        window.rootViewController = main
-        self.window = window
-        window.makeKeyAndVisible()
+        window = UIWindow(windowScene: scene)
+        let tabBarViewController = TabBarViewController()
+        var rootViewController: UIViewController = tabBarViewController
+        if isOnboarding == nil {
+            let onboardingVC = OnboardingPageViewController(transitionStyle: .scroll,
+                                                            navigationOrientation: .horizontal)
+            let oneWisibleVc = OnboardingViewController()
+            let textLableOneVC = NSLocalizedString("textLableOneVC", comment: "")
+            let model = Onboarding(imageName: "firstPage", textLable: textLableOneVC)
+            oneWisibleVc.config(model: model)
+            onboardingVC.setViewControllers([oneWisibleVc], direction: .forward, animated: true)
+            rootViewController = onboardingVC
+        }
+        window?.makeKeyAndVisible()
+        window?.rootViewController = rootViewController
+        isOnboarding = true
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

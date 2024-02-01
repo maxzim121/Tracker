@@ -1,7 +1,13 @@
 import Foundation
 import UIKit
 
-final class HabbitViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ScheduleDelegate, UITextFieldDelegate {
+final class HabbitViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ScheduleDelegate, UITextFieldDelegate, CreateCategoriesViewControllerDelegate {
+    func createCategoriesViewController(vc: UIViewController, nameCategory: String) {
+        categoryName = nameCategory
+        buttonsTable.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+        vc.dismiss(animated: true)
+    }
+    
     
     weak var delegate: TrackerCreationDelegate?
     
@@ -10,7 +16,7 @@ final class HabbitViewController: UIViewController, UITableViewDelegate, UITable
     var isHabbit = true
     private var buttonsTableHeight: CGFloat { isHabbit ? 150 : 75}
     private var tableConfiguration: Int { isHabbit ? 2 : 1 }
-    private var categoryName = "Категория"
+    private var categoryName = "" { didSet {checkingForEmptiness()}}
     private var habbitSchedule: [WeekDay] = [] { didSet { checkingForEmptiness() } }
     private var selectedEmoji = "" { didSet { checkingForEmptiness() } }
     private var selectedColor: UIColor? { didSet { checkingForEmptiness() } }
@@ -25,7 +31,10 @@ final class HabbitViewController: UIViewController, UITableViewDelegate, UITable
     
     private let scheduleVC = RaspisaineViewController()
     
-    private let buttonsLabels = ["Категория","Расписание"]
+    private let scheduleLableText = NSLocalizedString("scheduleLableText", comment: "")
+    private let categoriLabelText = NSLocalizedString("categoriLabelText", comment: "")
+    
+    private var buttonsLabels: [String] = []
     private var cancelLabel = UILabel()
     private var createLabel = UILabel()
     private var viewLabel = UILabel()
@@ -280,10 +289,16 @@ final class HabbitViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = buttonsTable.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ButtonCellView
+        buttonsLabels.append(categoriLabelText)
+        buttonsLabels.append(scheduleLableText)
         cell.label.text = buttonsLabels[indexPath.row]
         if indexPath.row == 0 {
-            cell.secondaryLabel.isHidden = false
-            cell.secondaryLabel.text = "Категория"
+            if categoryName.isEmpty {
+                cell.secondaryLabel.isHidden = true
+            } else {
+                cell.secondaryLabel.isHidden = false
+                cell.secondaryLabel.text = categoryName
+            }
         } else {
             if habbitSchedule.isEmpty {
                 return cell
@@ -299,7 +314,11 @@ final class HabbitViewController: UIViewController, UITableViewDelegate, UITable
         tableView.deselectRow(at: indexPath, animated: true)
             switch indexPath {
             case IndexPath(row: 0, section: 0):
-                print("ЗДЕСЬ БУДЕТ ПЕРЕХОД НА ДРУГОЙ ВЬЮ")
+                let categoryViewController = CategoryViewController()
+                let viewModel = CategoryViewModel()
+                categoryViewController.config(viewModel: viewModel)
+                categoryViewController.delegate = self
+                present(categoryViewController, animated: true)
             case IndexPath(row: 1, section: 0):
                 switchToScheduleView()
             default:
@@ -389,7 +408,6 @@ extension HabbitViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-//        return CGSize(width: (collectionView.bounds.width - CGFloat(25)) / 6, height: 52)
         return CGSize(width: 52, height: 52)
     }
     

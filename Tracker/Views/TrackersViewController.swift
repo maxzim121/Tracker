@@ -48,7 +48,7 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataProvider = try? DataProvider(self)
+        dataProvider = try? DataProvider(delegate: self)
         guard let dataProvider else { return }
         completedTrackers = dataProvider.treckersRecords
         categories = dataProvider.trackerCategory
@@ -92,7 +92,8 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
     private func configureTrackersLabel() {
         view.addSubview(trackersLabel)
         trackersLabel.translatesAutoresizingMaskIntoConstraints = false
-        trackersLabel.text = "Трекеры"
+        let headerText = NSLocalizedString("headerText", comment: "")
+        trackersLabel.text = headerText
         trackersLabel.font = UIFont.boldSystemFont(ofSize: 34)
         trackersLabel.textColor = .black
         NSLayoutConstraint.activate([
@@ -122,7 +123,8 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
             searchBar.topAnchor.constraint(equalTo: trackersLabel.bottomAnchor, constant: 0)
         ])
         searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = "Поиск"
+        let placeholderSearch = NSLocalizedString("placeholderSearch", comment: "")
+        searchBar.placeholder = placeholderSearch
     }
     
     private func configureStarImage() {
@@ -140,7 +142,8 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
     private func configureSloganLabel() {
         view.addSubview(sloganLabel)
         sloganLabel.translatesAutoresizingMaskIntoConstraints = false
-        sloganLabel.text = "Что будем отслеживать?"
+        let labelStabText = NSLocalizedString("labelStabText", comment: "")
+        sloganLabel.text = labelStabText
         sloganLabel.font = UIFont.systemFont(ofSize: 12)
         sloganLabel.textAlignment = .center
         NSLayoutConstraint.activate([
@@ -214,6 +217,7 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
         guard let dataProvider else { return }
         visibleCategories = dataProvider.trackerCategory
         updateTrackerCollectionView(trackerCategory: listCategories)
+
     }
     
     private func updateTrackerCollectionView(trackerCategory: [TrackerCategory]) {
@@ -229,34 +233,11 @@ final class TrackersViewController: UIViewController, ReloadDataDelegate, Tracke
         trackersCollectionView.reloadData()
     }
     
-    func storeCategory(_ at: DataProvider, indexPath: IndexPath) {
+    func storeCategory(dataProvider at: DataProvider, indexPath: IndexPath) {
         guard let dataProvider else { return }
-        let oldCount = visibleCategories.count
         visibleCategories = dataProvider.trackerCategory
         categories = visibleCategories
-        let newCount = visibleCategories.count
-        let indexSet = IndexSet(integer: indexPath.section)
-        if oldCount != newCount {
-            trackersCollectionView.insertSections(indexSet)
-            if categories.isEmpty {
-                sloganLabel.isHidden = false
-                starGrayImage.isHidden = false
-            } else {
-                sloganLabel.isHidden = true
-                starGrayImage.isHidden = true
-            }
-
-            return
-        }
-        trackersCollectionView.reloadSections(indexSet)
-        if categories.isEmpty {
-            sloganLabel.isHidden = false
-            starGrayImage.isHidden = false
-        } else {
-            sloganLabel.isHidden = true
-            starGrayImage.isHidden = true
-        }
-
+        showListTrackersForDay(trackerCategory: dataProvider.trackerCategory)
     }
     
     private func showMessageErrorAlert(message: String) {
@@ -377,26 +358,15 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController {
     func reloadData(tracker: Tracker, categoryName: String) {
+        dataProvider = try? DataProvider(delegate: self)
         guard let dataProvider else { return }
-        for (index, value) in visibleCategories.enumerated() {
-            if value.categoryName.lowercased() == categoryName.lowercased() {
-                let category = visibleCategories[index]
-                do {
-                    try dataProvider.addTracker(category, tracker: tracker)
-                } catch {
-                    let updateError = StoreError.failedToUpdateModel(error)
-                    showMessageErrorAlert(message: "\(updateError)")
-                }
-                return
-            }
-        }
+
         do {
-            try dataProvider.addNewCategory(categoryName, tracker: tracker)
+            try dataProvider.addTracker(categoryName, tracker: tracker)
         } catch {
-            let addError = StoreError.failedToRecordModel(error)
-            showMessageErrorAlert(message: "\(addError)")
+            let updateError = StoreError.failedToUpdateModel(error)
+            showMessageErrorAlert(message: "\(updateError)")
         }
-        showListTrackersForDay(trackerCategory: categories)
     }
 }
 

@@ -2,14 +2,14 @@ import Foundation
 import CoreData
 
 protocol DataProviderDelegate: AnyObject {
-    func storeCategory(_ at: DataProvider, indexPath: IndexPath)
+    func storeCategory(dataProvider: DataProvider, indexPath: IndexPath)
 }
 
 protocol DataProviderProtocol {
     var trackerCategory: [TrackerCategory] { get }
     var treckersRecords: Set<TrackerRecord> { get }
     
-    func addTracker(_ category: TrackerCategory, tracker: Tracker) throws
+    func addTracker(_ nameCategory: String, tracker: Tracker) throws
     func addNewCategory(_ nameCategori: String, tracker: Tracker) throws
     
     func addNewTrackerRecord(_ trackerRecord: TrackerRecord) throws
@@ -28,7 +28,7 @@ final class DataProvider: NSObject {
     
     private var indexPathCategory: IndexPath?
         
-    init(_ delegate: DataProviderDelegate) throws {
+    init(delegate: DataProviderDelegate) {
         let context = AppDelegate.container.viewContext
         self.delegate = delegate
         self.context = context
@@ -91,14 +91,18 @@ extension DataProvider: DataProviderProtocol {
         guard let objects = fetchedCategoryResultController.fetchedObjects
         else { return [] }
         let treckerCategory = trackersCategoryResult(trackerCategoryCoreData: objects)
-        
         return treckerCategory
     }
     
-    func addTracker(_ category: TrackerCategory, tracker: Tracker) throws {
+    func addTracker(_ nameCategory: String, tracker: Tracker) throws {
         fetchedCategoryResultController.delegate = nil
         let _ = fetchedTrackerResultController.fetchedObjects
-        try trackerStore.addNewTracker(tracker, category: category)
+        try trackerStore.addNewTracker(tracker, nameCategory: nameCategory)
+    }
+
+    
+    func addCategory(nameCategory: String) throws {
+        try trackerCategoryStore.addCategory(nameCategory)
     }
     
     func addNewCategory(_ nameCategori: String, tracker: Tracker) throws {
@@ -151,7 +155,7 @@ extension DataProvider: NSFetchedResultsControllerDelegate {
         guard let delegate,
               let indexPathCategory
         else { return }
-        delegate.storeCategory(self, indexPath: indexPathCategory)
+        delegate.storeCategory(dataProvider: self, indexPath: indexPathCategory)
         self.indexPathCategory = nil
     }
     

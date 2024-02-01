@@ -7,7 +7,7 @@ protocol TrackerStoreProtocol {
     func trackers(_ objects: [TrackerCoreData]) throws -> [Tracker]
     func deleteTracker(_ trackerCoreData: TrackerCoreData) throws
     func update(_ trackerCoreData: TrackerCoreData, tracker: Tracker) throws
-    func addNewTracker(_ tracker: Tracker, category: TrackerCategory) throws
+    func addNewTracker(_ tracker: Tracker, nameCategory: String) throws
 }
 
 final class TrackerStore: NSObject {
@@ -59,12 +59,12 @@ extension TrackerStore {
 }
 
 extension TrackerStore: TrackerStoreProtocol {
-    func addNewTracker(_ tracker: Tracker, category: TrackerCategory) throws {
+    func addNewTracker(_ tracker: Tracker, nameCategory: String) throws {
         let request = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
         request.returnsObjectsAsFaults = false
         request.predicate = NSPredicate(format: "%K == %@",
                                         #keyPath(TrackerCategoryCoreData.nameCategory),
-                                        category.categoryName as CVarArg)
+                                        nameCategory as CVarArg)
         let category = try context.fetch(request).first
         let trackerCoreData = TrackerCoreData(context: context)
         try updateExistingTrackerRecord(trackerCoreData: trackerCoreData, tracker: tracker)
