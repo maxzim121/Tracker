@@ -1,42 +1,68 @@
-//
-//  ColorCollectionViewCell.swift
-//  Tracker
-//
-//  Created by Maksim Zimens on 24.01.2024.
-//
-
-import Foundation
 import UIKit
 
+//MARK: - ColorCollectionViewCell
 final class ColorCollectionViewCell: UICollectionViewCell {
-    var colorView = UIView()
+    private struct ConstantsCell {
+        static let cornerRadius = CGFloat(8)
+        static let borderWidth = CGFloat(3)
+        static let alfaComponent = CGFloat(0.3)
+    }
+    
+    private var contentColorView: UIView = {
+        let contentColorView = UIView()
+        contentColorView.layer.masksToBounds = true
+        contentColorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return contentColorView
+    }()
+    
+    private var colorView: UIView = {
+        let colorView = UIView()
+        colorView.backgroundColor = .clear
+        colorView.translatesAutoresizingMaskIntoConstraints = false
+        colorView.layer.cornerRadius = ConstantsCell.cornerRadius
+        
+        return colorView
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureContentView()
+        setupColorView()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        assertionFailure("init(coder:) has not been implemented")
+    }
+}
+
+extension ColorCollectionViewCell {
+    //MARK: - Config
+    func configColor(color: UIColor) {
+        colorView.backgroundColor = color
     }
     
-    private func configureContentView() {
-        configureColorLabel()
-        contentView.addSubview(colorView)
-        colorView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.layer.cornerRadius = 8
+    func colorSelection(color: UIColor, flag: Bool) {
+        contentColorView.layer.cornerRadius = flag ? ConstantsCell.cornerRadius : 0
+        contentColorView.layer.borderWidth = flag ? ConstantsCell.borderWidth : 0
+        contentColorView.layer.masksToBounds = flag
+        contentColorView.layer.borderColor = color.withAlphaComponent(ConstantsCell.alfaComponent).cgColor
+    }
+    
+    //MARK: - SetupUI
+    private func setupColorView() {
+        addSubview(contentColorView)
+        contentColorView.addSubview(colorView)
+        
         NSLayoutConstraint.activate([
-            colorView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            colorView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            colorView.widthAnchor.constraint(equalToConstant: 42),
-            colorView.heightAnchor.constraint(equalToConstant: 42)
+            contentColorView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            contentColorView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            contentColorView.heightAnchor.constraint(equalToConstant: 52),
+            contentColorView.widthAnchor.constraint(equalToConstant: 52),
+            colorView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            colorView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            colorView.heightAnchor.constraint(equalToConstant: 40),
+            colorView.widthAnchor.constraint(equalToConstant: 40),
         ])
     }
-    
-    private func configureColorLabel() {
-        colorView.layer.cornerRadius = 8
-        colorView.layer.masksToBounds = true
-    }
-
-    
 }

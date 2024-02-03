@@ -58,7 +58,7 @@
 
 //MARK: - CreateCategoriesViewController
 "categoriLabelText" = "Category";
-"categoriAddButtonText" = "Add a categorycategory";
+"categoriAddButtonText" = "Add a category";
 "labelStabText" = "Habits and events can be combined in meaning";
 "deleteCategoryMessage" = "Are you sure you don't need this category?";
 

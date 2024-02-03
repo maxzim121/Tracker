@@ -1,16 +1,13 @@
-//
-//  OnboardingViewCOntroller.swift
-//  Tracker
-//
-//  Created by Maksim Zimens on 29.01.2024.
-//
-
-import Foundation
 import UIKit
 
-
+//MARK: - OnboardingViewController
 final class OnboardingViewController: UIViewController {
-    
+    private struct ConstantsOnboardingViewController {
+        static let cornerRadiusButton = CGFloat(16)
+        static let fontTextLable = UIFont.systemFont(ofSize: 32, weight: .bold)
+        static let fontTextButton = UIFont.systemFont(ofSize: 16, weight: .medium)
+        static let numberOfLineTextLable = 2
+    }
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -20,20 +17,19 @@ final class OnboardingViewController: UIViewController {
     
     private lazy var onboardingLableView: UILabel = {
         let onboardingLableView = UILabel()
-        onboardingLableView.font = UIFont.systemFont(ofSize: 32, weight: .bold)
-        onboardingLableView.textColor = UIColor(red: 0.102, green: 0.106, blue: 0.133, alpha: 1)
+        onboardingLableView.font = ConstantsOnboardingViewController.fontTextLable
+        onboardingLableView.textColor = .blackDay
         onboardingLableView.textAlignment = .center
-        onboardingLableView.numberOfLines = 2
+        onboardingLableView.numberOfLines =  ConstantsOnboardingViewController.numberOfLineTextLable
         
         return onboardingLableView
     }()
     
     private lazy var startButton: UIButton = {
         let startButton = UIButton()
-        let textButton = NSLocalizedString("textButton", comment: "Text displayed on empty state")
-        startButton.setTitle(textButton, for: .normal)
-        startButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        startButton.titleLabel?.textColor = .white
+        startButton.setTitle(Translate.textButton, for: .normal)
+        startButton.titleLabel?.font = ConstantsOnboardingViewController.fontTextButton
+        startButton.titleLabel?.textColor = .whiteDay
         startButton.addTarget(self, action: #selector(showViewController), for: .touchUpInside)
         
         return startButton
@@ -79,8 +75,8 @@ extension OnboardingViewController {
     private func setupStartButton() {
         view.addSubview(startButton)
         startButton.translatesAutoresizingMaskIntoConstraints = false
-        startButton.backgroundColor = UIColor(red: 0.102, green: 0.106, blue: 0.133, alpha: 1)
-        startButton.layer.cornerRadius = 16
+        startButton.backgroundColor = .blackDay
+        startButton.layer.cornerRadius = ConstantsOnboardingViewController.cornerRadiusButton
         startButton.layer.masksToBounds = true
         
         NSLayoutConstraint.activate([
@@ -101,7 +97,7 @@ extension OnboardingViewController {
     @objc
     private func showViewController() {
         guard let window = UIApplication.shared.windows.first else { return }
-        let vc = TabBarViewController()
+        let vc = TabBarController()
         window.rootViewController = vc
     }
 }
