@@ -10,6 +10,17 @@ import UIKit
 
 extension UIColor {
     
+    static var blackDay: UIColor {UIColor(named: "blackDay") ?? .black}
+    static var grayDay: UIColor {UIColor(named: "grayDay") ?? .gray}
+    static var blueDay: UIColor {UIColor(named: "blueDay") ?? .blue}
+    static var blueFilterButton: UIColor {UIColor(named: "blueFilterButton") ?? .blue}
+    static var whiteDay: UIColor {UIColor(named: "whiteDay") ?? .white}
+    static var redDay: UIColor {UIColor(named: "redDay") ?? .red}
+    static var backgroundDay: UIColor {UIColor(named: "backgroundDay") ?? .gray}
+    static var lightGray: UIColor {UIColor(named: "lightGray") ?? .gray}
+    static var backgroundNight: UIColor {UIColor(named: "backgroundNight") ?? .gray}
+    static var grayOpacity30: UIColor {UIColor(named: "grayOpacity30") ?? .gray}
+    
     static var colorSelection1: UIColor {UIColor(named: "colorSelection1") ?? .red}
     static var colorSelection2: UIColor {UIColor(named: "colorSelection2") ?? .orange}
     static var colorSelection3: UIColor {UIColor(named: "colorSelection3") ?? .blue}
@@ -28,6 +39,13 @@ extension UIColor {
     static var colorSelection16: UIColor {UIColor(named: "colorSelection16") ?? .red}
     static var colorSelection17: UIColor {UIColor(named: "colorSelection17") ?? .red}
     static var colorSelection18: UIColor {UIColor(named: "colorSelection18") ?? .green}
+    
+    static var redGradient: UIColor {UIColor(named: "redGradient") ?? .red}
+    static var greenGradient: UIColor {UIColor(named: "greenGradient") ?? .green}
+    static var blueGradient: UIColor {UIColor(named: "blueGradient") ?? .blue}
+    
+    static var textEventColor: UIColor {UIColor(named: "textEventColor") ?? .gray}
+    static var separatorColor: UIColor {UIColor(named: "separatorColor") ?? .gray}
     
 }
 

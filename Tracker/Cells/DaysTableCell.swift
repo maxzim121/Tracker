@@ -1,59 +1,84 @@
-//
-//  DaysTableCell.swift
-//  Tracker
-//
-//  Created by Maksim Zimens on 30.11.2023.
-//
-
-import Foundation
 import UIKit
 
-final class DaysTableCell: UITableViewCell {
+//MARK: - WeekDayTableViewCellDelegate
+protocol WeekDayTableViewCellDelegate: AnyObject {
+    func addDayInListkDay(cell: UITableViewCell, flag: Bool)
+}
+
+//MARK: -
+final class WeekDayTableViewCell: UITableViewCell {
+    private static let dayLableFont = UIFont.systemFont(ofSize: 17,
+                                                        weight: .regular)
     
-    weak var delegate: SwitherDelegate?
+    weak var delegate: WeekDayTableViewCellDelegate?
+    
+    private lazy var dayLable: UILabel = {
+        let dayLable = UILabel()
+        dayLable.font = WeekDayTableViewCell.dayLableFont
         
-    var dayLabel = UILabel()
-    var switcher = UISwitch()
+        return dayLable
+    }()
+    
+    private lazy var choiceDaySwitch: UISwitch = {
+        let choiceDaySwitch = UISwitch()
+        choiceDaySwitch.onTintColor = .blueDay
+        choiceDaySwitch.addTarget(self,
+                                  action: #selector(switching),
+                                  for: .touchUpInside)
+        
+        return choiceDaySwitch
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: "DaysCell")
-        contentView.backgroundColor = UIColor(red: 0.902, green: 0.91, blue: 0.922, alpha: 0.3)
-        contentView.heightAnchor.constraint(equalToConstant: 75).isActive = true
-        
-        configureDayLabel()
-        configureSwitcher()
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .backgroundDay
+        layer.masksToBounds = true
+        contentView.backgroundColor = .clear
+        setupElement()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func configureDayLabel() {
-        contentView.addSubview(dayLabel)
-        dayLabel.translatesAutoresizingMaskIntoConstraints = false
-        dayLabel.font = .systemFont(ofSize: 17, weight: .regular)
-        dayLabel.textColor = .black
-        NSLayoutConstraint.activate([
-            dayLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            dayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
-        ])
-    }
-    
-    private func configureSwitcher() {
-        contentView.addSubview(switcher)
-        switcher.onTintColor = UIColor(red: 0.22, green: 0.45, blue: 0.91, alpha: 1)
-        switcher.translatesAutoresizingMaskIntoConstraints = false
-        switcher.addTarget(self, action: #selector(swithing), for: .touchUpInside)
-        NSLayoutConstraint.activate([
-            switcher.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            switcher.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
-        ])
-    }
-    
-    @objc private func swithing(_ sender: UISwitch) {
-        
+}
+
+extension WeekDayTableViewCell {
+    //MARK: - Обработка событий
+    @objc
+    private func switching(_ sender: UISwitch) {
         guard let delegate else { return }
-        delegate.switcherRecievedDay(cell: self, flag: switcher.isOn)
+        delegate.addDayInListkDay(cell: self,
+                                  flag: choiceDaySwitch.isOn)
     }
     
+    //MARK: - Configuration
+    func setupCornerRadius(cornerRadius: CGFloat,
+                           maskedCorners: CACornerMask) {
+        layer.cornerRadius = cornerRadius
+        layer.maskedCorners = maskedCorners
+    }
+    
+    func config(nameDay: WeekDay) {
+        dayLable.text = nameDay.day
+    }
+    
+    //MARK: - SetupUI
+    private func setupElement() {
+        [dayLable, choiceDaySwitch].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview($0)
+            $0.backgroundColor = .clear
+        }
+        
+        NSLayoutConstraint.activate([
+            dayLable.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                              constant: 12),
+            dayLable.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            
+            choiceDaySwitch.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                      constant: -12),
+            choiceDaySwitch.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+        ])
+    }
 }

@@ -1,45 +1,55 @@
-//
-//  EmojiCollectionViewCell.swift
-//  Tracker
-//
-//  Created by Maksim Zimens on 24.01.2024.
-//
-
-import Foundation
 import UIKit
 
+//MARK: - EmojiCollectionViewCell
 final class EmojiCollectionViewCell: UICollectionViewCell {
-    var emojiCellLabel = UILabel()
+    private struct ConstantsCell {
+        static let cornerRadius = CGFloat(8)
+        static let font = UIFont.systemFont(ofSize: 32, weight: .medium)
+    }
+    
+    private var emojiView: UILabel = {
+        let emojiView = UILabel()
+        emojiView.textAlignment = .center
+        emojiView.layer.cornerRadius = ConstantsCell.cornerRadius
+        emojiView.layer.masksToBounds = true
+        emojiView.backgroundColor = .clear
+        emojiView.font = ConstantsCell.font
+        emojiView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return emojiView
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureContentView()
-        
+        setupColorView()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        assertionFailure("init(coder:) has not been implemented")
+    }
+}
+
+extension EmojiCollectionViewCell {
+    //MARK: - Config
+    func configEmoji(emoji: String) {
+        emojiView.text = emoji
     }
     
-    private func configureContentView() {
-        configureEmojiLabel()
-        contentView.addSubview(emojiCellLabel)
-        emojiCellLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.layer.cornerRadius = 16
+    //MARK: - Selected
+    func emojiSelection(isBackground: Bool) {
+        emojiView.backgroundColor = isBackground ? .grayDay : .clear
+    }
+    
+    //MARK: - SetupUI
+    private func setupColorView() {
+        addSubview(emojiView)
+        
         NSLayoutConstraint.activate([
-            emojiCellLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            emojiCellLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-            
+            emojiView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            emojiView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            emojiView.heightAnchor.constraint(equalToConstant: 52),
+            emojiView.widthAnchor.constraint(equalToConstant: 52),
         ])
     }
-    
-    private func configureEmojiLabel() {
-        emojiCellLabel.backgroundColor = .clear
-        emojiCellLabel.textAlignment = .center
-        emojiCellLabel.layer.cornerRadius = 8
-        emojiCellLabel.layer.masksToBounds = true
-        emojiCellLabel.font = UIFont.systemFont(ofSize: 32, weight: .medium)
-    }
-    
-    
 }

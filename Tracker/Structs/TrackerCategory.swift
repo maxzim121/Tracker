@@ -9,8 +9,10 @@ import Foundation
 import UIKit
 
 struct TrackerCategory {
-    let categoryName: String
-    let categoryTrackers: [Tracker]
+    let nameCategory: String
+    let arrayTrackers: [Tracker]
+    let isPinned: Bool
 }
+
 
 
